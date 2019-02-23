@@ -11,7 +11,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Logger;
@@ -38,6 +37,7 @@ public class PlayerInteractEntityEventListener implements Listener {
                 player.getInventory().getItemInMainHand().getType().equals(Material.STICK) &&
                 event.getRightClicked() instanceof Villager) {
             Villager villager = (Villager) event.getRightClicked();
+            Inventory playerInventory   = event.getPlayer().getInventory();
             Inventory villagerInventory = villager.getInventory();
 
             /*
@@ -57,7 +57,7 @@ public class PlayerInteractEntityEventListener implements Listener {
             }
             */
 
-            player.openInventory(new VillagerInventory(villagerInventory));
+            player.openInventory(new VillagerInventory(playerInventory, villagerInventory));
         }
     }
 }
