@@ -34,7 +34,6 @@ public class Katsuage extends JavaPlugin {
         getServer().getPluginManager().registerEvents(inventoryOpenEventListener, this);
 
         logger.info("Katsuage enabled");
-        logger.info((String) config.get("test", "test"));
     }
 
     @Override
