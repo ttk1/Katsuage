@@ -1,4 +1,4 @@
-package net.ttk1.spigotplugintemplate;
+package net.ttk1.katsuage;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
@@ -24,7 +24,7 @@ public class PluginModule extends AbstractModule {
     @Override
     protected void configure(){
         bind(JavaPlugin.class).toInstance(plugin);
-        bind(Logger.class).annotatedWith(Names.named("spigotplugintemplate")).toInstance(plugin.getLogger());
+        bind(Logger.class).annotatedWith(Names.named("katsuage")).toInstance(plugin.getLogger());
         bind(Configuration.class).toInstance(plugin.getConfig());
     }
 }

@@ -1,4 +1,4 @@
-package net.ttk1.spigotplugintemplate;
+package net.ttk1.katsuage;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -9,21 +9,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.util.logging.Logger;
 
-public class SpigotPluginTemplate extends JavaPlugin {
+public class Katsuage extends JavaPlugin {
     private Logger logger;
     private Configuration config;
 
-    @Inject
-    private void setLogger(@Named("spigotplugintemplate") Logger logger) {
-        this.logger = logger;
-    }
-
-    @Inject
-    private void setConfig(Configuration config) {
-        this.config = config;
-    }
-
-    public SpigotPluginTemplate() {
+    public Katsuage() {
     }
 
     @Override
@@ -35,13 +25,13 @@ public class SpigotPluginTemplate extends JavaPlugin {
         Injector injector = module.createInjector();
         injector.injectMembers(this);
 
-        logger.info("SpigotPluginTemplate enabled");
+        logger.info("Katsuage enabled");
         logger.info((String) config.get("test", "test"));
     }
 
     @Override
     public void onDisable() {
-        logger.info("SpigotPluginTemplate disabled");
+        logger.info("Katsuage disabled");
     }
 
     private void initConfig() {
@@ -59,5 +49,15 @@ public class SpigotPluginTemplate extends JavaPlugin {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Inject
+    private void setLogger(@Named("katsuage") Logger logger) {
+        this.logger = logger;
+    }
+
+    @Inject
+    private void setConfig(Configuration config) {
+        this.config = config;
     }
 }
