@@ -13,11 +13,13 @@ import java.util.List;
 import java.util.ListIterator;
 
 public class VillagerInventory implements Inventory {
-    private Inventory originalInventory;
+    private Inventory playerInventory;
+    private Inventory villagerInventory;
     private String name;
 
-    public VillagerInventory (Inventory inventory) {
-        this.originalInventory = inventory;
+    public VillagerInventory(Inventory playerInventory, Inventory villagerInventory) {
+        this.playerInventory = playerInventory;
+        this.villagerInventory = villagerInventory;
         this.name = "Villager's Inventory";
     }
 
@@ -28,12 +30,12 @@ public class VillagerInventory implements Inventory {
 
     @Override
     public int getMaxStackSize() {
-        return originalInventory.getMaxStackSize();
+        return villagerInventory.getMaxStackSize();
     }
 
     @Override
     public void setMaxStackSize(int i) {
-        originalInventory.setMaxStackSize(i);
+        villagerInventory.setMaxStackSize(i);
     }
 
     @Override
@@ -43,146 +45,163 @@ public class VillagerInventory implements Inventory {
 
     @Override
     public ItemStack getItem(int i) {
-        return originalInventory.getItem(i);
+        return villagerInventory.getItem(i);
     }
 
     @Override
     public void setItem(int i, ItemStack itemStack) {
-        originalInventory.setItem(i, itemStack);
+        // 一番後ろのスロットにセットしようとしたら、止める
+        if (i == 8) {
+            // アイテムをプレイヤーのインベントリに置き直す
+
+            int playerInventorySize = playerInventory.getSize();
+
+            for(int j = 0; j < playerInventorySize; j++) {
+                ItemStack item = playerInventory.getItem(j);
+
+                if (item == null) {
+                    playerInventory.setItem(j, itemStack);
+                    break;
+                }
+            }
+        }
+        else {
+            villagerInventory.setItem(i, itemStack);
+        }
     }
 
     @Override
     public HashMap<Integer, ItemStack> addItem(ItemStack... itemStacks) throws IllegalArgumentException {
-        return originalInventory.addItem(itemStacks);
+        return villagerInventory.addItem(itemStacks);
     }
 
     @Override
     public HashMap<Integer, ItemStack> removeItem(ItemStack... itemStacks) throws IllegalArgumentException {
-        return originalInventory.removeItem(itemStacks);
+        return villagerInventory.removeItem(itemStacks);
     }
 
     @Override
     public ItemStack[] getContents() {
-        return originalInventory.getContents();
+        return villagerInventory.getContents();
     }
 
     @Override
     public void setContents(ItemStack[] itemStacks) throws IllegalArgumentException {
-        originalInventory.setContents(itemStacks);
+        villagerInventory.setContents(itemStacks);
     }
 
     @Override
     public ItemStack[] getStorageContents() {
-        return originalInventory.getStorageContents();
+        return villagerInventory.getStorageContents();
     }
 
     @Override
     public void setStorageContents(ItemStack[] itemStacks) throws IllegalArgumentException {
-        originalInventory.setStorageContents(itemStacks);
+        villagerInventory.setStorageContents(itemStacks);
     }
 
     @Override
     public boolean contains(Material material) throws IllegalArgumentException {
-        return originalInventory.contains(material);
+        return villagerInventory.contains(material);
     }
 
     @Override
     public boolean contains(ItemStack itemStack) {
-        return originalInventory.contains(itemStack);
+        return villagerInventory.contains(itemStack);
     }
 
     @Override
     public boolean contains(Material material, int i) throws IllegalArgumentException {
-        return originalInventory.contains(material, i);
+        return villagerInventory.contains(material, i);
     }
 
     @Override
     public boolean contains(ItemStack itemStack, int i) {
-        return originalInventory.contains(itemStack, i);
+        return villagerInventory.contains(itemStack, i);
     }
 
     @Override
     public boolean containsAtLeast(ItemStack itemStack, int i) {
-        return originalInventory.containsAtLeast(itemStack, i);
+        return villagerInventory.containsAtLeast(itemStack, i);
     }
 
     @Override
     public HashMap<Integer, ? extends ItemStack> all(Material material) throws IllegalArgumentException {
-        return originalInventory.all(material);
+        return villagerInventory.all(material);
     }
 
     @Override
     public HashMap<Integer, ? extends ItemStack> all(ItemStack itemStack) {
-        return originalInventory.all(itemStack);
+        return villagerInventory.all(itemStack);
     }
 
     @Override
     public int first(Material material) throws IllegalArgumentException {
-        return originalInventory.first(material);
+        return villagerInventory.first(material);
     }
 
     @Override
     public int first(ItemStack itemStack) {
-        return originalInventory.first(itemStack);
+        return villagerInventory.first(itemStack);
     }
 
     @Override
     public int firstEmpty() {
-        return originalInventory.firstEmpty();
+        return villagerInventory.firstEmpty();
     }
 
     @Override
     public void remove(Material material) throws IllegalArgumentException {
-        originalInventory.remove(material);
+        villagerInventory.remove(material);
     }
 
     @Override
     public void remove(ItemStack itemStack) {
-        originalInventory.removeItem(itemStack);
+        villagerInventory.removeItem(itemStack);
     }
 
     @Override
     public void clear(int i) {
-        originalInventory.clear(i);
+        villagerInventory.clear(i);
     }
 
     @Override
     public void clear() {
-        originalInventory.clear();
+        villagerInventory.clear();
     }
 
     @Override
     public List<HumanEntity> getViewers() {
-        return originalInventory.getViewers();
+        return villagerInventory.getViewers();
     }
 
     @Override
     public String getTitle() {
-        return originalInventory.getTitle();
+        return villagerInventory.getTitle();
     }
 
     @Override
     public InventoryType getType() {
-        return originalInventory.getType();
+        return villagerInventory.getType();
     }
 
     @Override
     public InventoryHolder getHolder() {
-        return originalInventory.getHolder();
+        return villagerInventory.getHolder();
     }
 
     @Override
     public ListIterator<ItemStack> iterator() {
-        return originalInventory.iterator();
+        return villagerInventory.iterator();
     }
 
     @Override
     public ListIterator<ItemStack> iterator(int i) {
-        return originalInventory.iterator(i);
+        return villagerInventory.iterator(i);
     }
 
     @Override
     public Location getLocation() {
-        return originalInventory.getLocation();
+        return villagerInventory.getLocation();
     }
 }
