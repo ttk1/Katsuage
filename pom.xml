@@ -18,7 +18,7 @@
         <!--SpigotPlugin properties-->
         <plugin.main>net.ttk1.katsuage.Katsuage</plugin.main>
         <plugin.name>${project.artifactId}</plugin.name>
-        <plugin.description>SpigotPluginTemplate!!</plugin.description>
+        <plugin.description>KatsuagePlugin</plugin.description>
         <plugin.website>http://ttk1.net</plugin.website>
         <plguin.author>ttk1 and yasuda0102</plguin.author>
         <plugin.database>false</plugin.database>
