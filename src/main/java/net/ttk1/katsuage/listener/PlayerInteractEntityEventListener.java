@@ -1,6 +1,7 @@
 package net.ttk1.katsuage.listener;
 
 import com.google.inject.Singleton;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,8 +13,9 @@ public class PlayerInteractEntityEventListener implements Listener {
 
     @EventHandler
     public void onPlayerInteractEntityEventHandler(PlayerInteractEntityEvent event) {
-        if (event.getHand().equals(EquipmentSlot.OFF_HAND)) {
-            Player player = event.getPlayer();
+        Player player = event.getPlayer();
+        if (event.getHand().equals(EquipmentSlot.HAND) &&
+                player.getInventory().getItemInMainHand().getType().equals(Material.STICK)) {
             player.sendMessage("hello, world!");
         }
     }

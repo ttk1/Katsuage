@@ -3,17 +3,19 @@ package net.ttk1.katsuage;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.name.Named;
-import net.ttk1.katsuage.listener.PlayerInteractEntityEventListener;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.util.logging.Logger;
 
+import net.ttk1.katsuage.listener.*;
+
 public class Katsuage extends JavaPlugin {
     private Logger logger;
     private Configuration config;
     private PlayerInteractEntityEventListener playerInteractEntityEventListener;
+    private InventoryOpenEventListener inventoryOpenEventListener;
 
     public Katsuage() {
     }
@@ -29,6 +31,7 @@ public class Katsuage extends JavaPlugin {
 
         // add event listener
         getServer().getPluginManager().registerEvents(playerInteractEntityEventListener, this);
+        getServer().getPluginManager().registerEvents(inventoryOpenEventListener, this);
 
         logger.info("Katsuage enabled");
         logger.info((String) config.get("test", "test"));
@@ -67,7 +70,12 @@ public class Katsuage extends JavaPlugin {
     }
 
     @Inject
-    private  void setPlayerInteractEntityEventListener(PlayerInteractEntityEventListener playerInteractEntityEventListener) {
+    private void setPlayerInteractEntityEventListener(PlayerInteractEntityEventListener playerInteractEntityEventListener) {
         this.playerInteractEntityEventListener = playerInteractEntityEventListener;
+    }
+
+    @Inject
+    private void setInventoryOpenEventListener(InventoryOpenEventListener inventoryOpenEventListener) {
+        this.inventoryOpenEventListener = inventoryOpenEventListener;
     }
 }
