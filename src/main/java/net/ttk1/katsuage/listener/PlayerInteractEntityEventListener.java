@@ -12,6 +12,7 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.logging.Logger;
 
@@ -31,7 +32,7 @@ public class PlayerInteractEntityEventListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerInteractEntityEventHandler(PlayerInteractEntityEvent event) {
+    public void onPlayerInteractEntityEvent(PlayerInteractEntityEvent event) {
         Player player = event.getPlayer();
         if (event.getHand().equals(EquipmentSlot.HAND) &&
                 player.getInventory().getItemInMainHand().getType().equals(Material.STICK) &&
@@ -40,24 +41,23 @@ public class PlayerInteractEntityEventListener implements Listener {
             Inventory playerInventory   = event.getPlayer().getInventory();
             Inventory villagerInventory = villager.getInventory();
 
-            /*
-            logger.info(villager.toString());
-            logger.info(villagerInventory.toString());
+            OpenInventoryTask task = new OpenInventoryTask(player, new VillagerInventory(playerInventory, villagerInventory));
+            task.runTask(plugin);
+        }
+    }
 
-            ItemStack[] itemStacks = villagerInventory.getContents();
-            for (int i = 0; i < itemStacks.length; i ++) {
-                ItemStack itemStack = itemStacks[i];
-                logger.info("index: "+i);
-                if (itemStack != null) {
-                    logger.info(itemStack.getType().toString());
-                    logger.info(String.valueOf(itemStack.getAmount()));
-                } else {
-                    logger.info("null");
-                }
-            }
-            */
+    private class OpenInventoryTask extends BukkitRunnable {
+        private Player player;
+        private Inventory villagerInventory;
 
-            player.openInventory(new VillagerInventory(playerInventory, villagerInventory));
+        OpenInventoryTask(Player player, Inventory villagerInventory) {
+            this.player = player;
+            this.villagerInventory = villagerInventory;
+        }
+
+        @Override
+        public void run() {
+            player.openInventory(villagerInventory);
         }
     }
 }
