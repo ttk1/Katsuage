@@ -11,7 +11,7 @@ import org.bukkit.event.inventory.InventoryType;
 @Singleton
 public class InventoryOpenEventListener implements Listener {
     @EventHandler
-    public void onInventoryOpenEventHandler(InventoryOpenEvent event) {
+    public void onInventoryOpenEvent(InventoryOpenEvent event) {
         if (event.getInventory().getType().equals(InventoryType.MERCHANT) &&
                 event.getPlayer() instanceof Player &&
                 event.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.STICK)) {

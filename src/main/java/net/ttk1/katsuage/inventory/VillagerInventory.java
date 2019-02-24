@@ -50,19 +50,10 @@ public class VillagerInventory implements Inventory {
 
     @Override
     public void setItem(int i, ItemStack itemStack) {
-        // 一番後ろのスロットにセットしようとしたら、止める
         if (i == 8) {
-            // アイテムをプレイヤーのインベントリに置き直す
-
-            int playerInventorySize = playerInventory.getSize();
-
-            for(int j = 0; j < playerInventorySize; j++) {
-                ItemStack item = playerInventory.getItem(j);
-
-                if (item == null) {
-                    playerInventory.setItem(j, itemStack);
-                    break;
-                }
+            int firstEmpty = playerInventory.firstEmpty();
+            if (firstEmpty != -1) {
+                playerInventory.setItem(firstEmpty, itemStack);
             }
         }
         else {
