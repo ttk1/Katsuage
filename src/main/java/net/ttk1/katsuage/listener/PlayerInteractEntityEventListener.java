@@ -14,17 +14,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.logging.Logger;
-
 @Singleton
 public class PlayerInteractEntityEventListener implements Listener {
-    private Logger logger;
     private JavaPlugin plugin;
-
-    @Inject
-    private void setLogger(Logger logger) {
-        this.logger = logger;
-    }
 
     @Inject
     private void setPlugin(JavaPlugin plugin) {

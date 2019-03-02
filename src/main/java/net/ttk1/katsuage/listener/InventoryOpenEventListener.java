@@ -12,9 +12,9 @@ import org.bukkit.event.inventory.InventoryType;
 public class InventoryOpenEventListener implements Listener {
     @EventHandler
     public void onInventoryOpenEvent(InventoryOpenEvent event) {
-        if (event.getInventory().getType().equals(InventoryType.MERCHANT) &&
+        if (event.getInventory().getType() == InventoryType.MERCHANT &&
                 event.getPlayer() instanceof Player &&
-                event.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.STICK)) {
+                event.getPlayer().getInventory().getItemInMainHand().getType() == Material.STICK) {
             event.setCancelled(true);
         }
     }

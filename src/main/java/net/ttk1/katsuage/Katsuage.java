@@ -12,26 +12,25 @@ import java.util.logging.Logger;
 import net.ttk1.katsuage.listener.*;
 
 public class Katsuage extends JavaPlugin {
-    private Logger logger;
-    private Configuration config;
-    private PlayerInteractEntityEventListener playerInteractEntityEventListener;
-    private InventoryOpenEventListener inventoryOpenEventListener;
+    @Inject @Named("katsuage") private Logger logger;
+    @Inject private Configuration config;
 
-    public Katsuage() {
-    }
+    @Inject private PlayerInteractEntityEventListener playerInteractEntityEventListener;
+    @Inject private InventoryOpenEventListener inventoryOpenEventListener;
+    @Inject private InventoryClickEventListener inventoryClickEventListener;
 
     @Override
     public void onEnable() {
         initConfig();
 
-        // injector
         PluginModule module = new PluginModule(this);
         Injector injector = module.createInjector();
+        // createInjectorの時点でinjectは非明示的に行われているっぽいが、明示的なinjectもやっておく
         injector.injectMembers(this);
 
-        // add event listener
         getServer().getPluginManager().registerEvents(playerInteractEntityEventListener, this);
         getServer().getPluginManager().registerEvents(inventoryOpenEventListener, this);
+        getServer().getPluginManager().registerEvents(inventoryClickEventListener, this);
 
         logger.info("Katsuage enabled");
     }
@@ -56,25 +55,5 @@ public class Katsuage extends JavaPlugin {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    @Inject
-    private void setLogger(@Named("katsuage") Logger logger) {
-        this.logger = logger;
-    }
-
-    @Inject
-    private void setConfig(Configuration config) {
-        this.config = config;
-    }
-
-    @Inject
-    private void setPlayerInteractEntityEventListener(PlayerInteractEntityEventListener playerInteractEntityEventListener) {
-        this.playerInteractEntityEventListener = playerInteractEntityEventListener;
-    }
-
-    @Inject
-    private void setInventoryOpenEventListener(InventoryOpenEventListener inventoryOpenEventListener) {
-        this.inventoryOpenEventListener = inventoryOpenEventListener;
     }
 }
