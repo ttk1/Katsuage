@@ -2,17 +2,22 @@ package net.ttk1.katsuage.listener;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import net.ttk1.katsuage.inventory.MyMerchantInventory;
 import net.ttk1.katsuage.inventory.VillagerInventory;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.MerchantInventory;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import static org.bukkit.Bukkit.getServer;
 
 @Singleton
 public class PlayerInteractEntityEventListener implements Listener {
@@ -36,6 +41,14 @@ public class PlayerInteractEntityEventListener implements Listener {
             OpenInventoryTask task = new OpenInventoryTask(player, new VillagerInventory(playerInventory, villagerInventory));
             task.runTask(plugin);
         }
+        else if (event.getRightClicked() instanceof Villager) {
+            event.setCancelled(true);
+
+            Villager villager = (Villager) event.getRightClicked();
+            MerchantInventory merchantInventory = (MerchantInventory) getServer().createInventory(villager, InventoryType.MERCHANT);
+            OpenInventoryTask task = new OpenInventoryTask(player, new MyMerchantInventory(merchantInventory));
+            task.runTask(plugin);
+        }
     }
 
     private class OpenInventoryTask extends BukkitRunnable {
@@ -52,4 +65,6 @@ public class PlayerInteractEntityEventListener implements Listener {
             player.openInventory(villagerInventory);
         }
     }
+
+
 }
