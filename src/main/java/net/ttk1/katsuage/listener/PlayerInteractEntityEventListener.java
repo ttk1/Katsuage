@@ -65,6 +65,4 @@ public class PlayerInteractEntityEventListener implements Listener {
             player.openInventory(villagerInventory);
         }
     }
-
-
 }
