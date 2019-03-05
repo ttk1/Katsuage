@@ -45,7 +45,11 @@ public class VillagerInventory implements Inventory {
 
     @Override
     public ItemStack getItem(int i) {
-        return villagerInventory.getItem(i);
+        if (i == 8) {
+            return null;
+        } else {
+            return villagerInventory.getItem(i);
+        }
     }
 
     @Override
@@ -73,7 +77,11 @@ public class VillagerInventory implements Inventory {
 
     @Override
     public ItemStack[] getContents() {
-        return villagerInventory.getContents();
+        ItemStack[] contents = new ItemStack[getSize()];
+        for (int i = 0; i < getSize(); i++) {
+            contents[i] = getItem(i);
+        }
+        return contents;
     }
 
     @Override
